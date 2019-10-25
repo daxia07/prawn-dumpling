@@ -55,7 +55,13 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+.env.*
 
 # next.js build output
 .next
+
+.cache
+.public
+frontend/public/index.html
+frontend/public/page-data/dev-404-page/page-data.json
+frontend/public/page-data/index/page-data.json

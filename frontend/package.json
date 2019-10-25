@@ -1,0 +1,19 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "personal website with gatsby, contentful and netlify",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "limingxia <limingxia07@gmail.com>",
+  "homepage": "http://www.prawn-dumpling.com/",
+  "license": "MIT",
+  "dependencies": {
+    "gatsby": "^2.17.4",
+    "gatsby-plugin-react-helmet": "^3.1.13",
+    "gatsby-plugin-sharp": "^2.2.32",
+    "react-dom": "^16.11.0"
+  }
+}
