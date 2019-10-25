@@ -22,6 +22,23 @@
       "stopOnEntry": false,
       "runtimeArgs": ["--nolazy"],
       "sourceMaps": false
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome against localhost",
+      "url": "http://localhost:8000",
+      "webRoot": "${workspaceFolder}/frontend/src",
+      "breakOnLoad": true,
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "*": "${webRoot}/*"
+      },
+      "skipFiles": [
+        "${workspaceFolder}/frontend/node_modules/**/*.js",
+        "<node_internals>/**/*.js",
+      ],
+      "smartStep": true
     }
   ]
 }

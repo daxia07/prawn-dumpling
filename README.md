@@ -28,7 +28,7 @@ In this part, we are going to write our own material ui themed components, compo
 ## Init
 1. Create a new repo with Node type .gitignore, a MIT LICENSE and brief README.md on Github, and clone it to your disk. 
 2. make two directories named by frontend and backend.
-4. cd into frontend, and run 
+3. cd into frontend, and run 
 ```
 npm init -y
 ```
@@ -41,6 +41,7 @@ install packages: *gatsby, gatsby-plugin-react-helmet, gatsby-plugin-sharp, reac
 yarn add gatsby gatsby-plugin-react-helmet gatsby-plugin-sharp react-dom
 ```
 A brief intro, react-helmet plugin generates html head where meta data and stylesheets resides, sharp plugin helps improve image performance.
+
 5. mkdir under frontend folder src/pages, add a file named index.js with code
 ```jsx
 import React from 'react'
@@ -55,4 +56,11 @@ const index = () => {
 
 export default index
 ```
+run command 
+```
+gatsby develop
+```
+Then visit url `localhost:8000`, you should be able to see your greetings you just wrote, then we are ready to go
+6. Install VSCode if it was not already in your computer, and configure your launch.json as instructed in official [webpage](https://www.gatsbyjs.org/docs/debugging-the-build-process/ "webpage"). **Don't Forget To Add `frontend` to your launch configuration path!**
+
 
