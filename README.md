@@ -61,6 +61,43 @@ run command
 gatsby develop
 ```
 Then visit url `localhost:8000`, you should be able to see your greetings you just wrote, then we are ready to go
+
 6. Install VSCode if it was not already in your computer, and configure your launch.json as instructed in official [webpage](https://www.gatsbyjs.org/docs/debugging-the-build-process/ "webpage"). **Don't Forget To Add `frontend` to your launch configuration path!**
 
+7. Install devDeps eslint, eslint-plugin-react and prettier
+```
+yarn add --dev prettier eslint eslint-plugin-react
+```
+add command scripts to package.json
+```json
+  "scripts": {
+    "start": "npm run develop",
+    "format": "prettier --write '{gatsby-*.js,src/**/*.{js,jsx,json,css}}'",
+    "lint": "./node_modules/.bin/eslint --ext .js,.jsx --ignore-pattern public .",
+    "bns": "rm -rf public && rm -rf .cache && gatsby build && gatsby serve"
+  },
+```
+add .eslintrc.js, .prettierrc and .prettierignore files to frontend folder
+```jsx
+module.exports = {
+  "env": {
+    "browser": true,
+    "es6": true,
+  },
+  "plugins": [
+    "react",
+  ],
+  "globals": {
+    "graphql": false,
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true,
+      "modules": true,
+    },
+  }
+}
+```
 
