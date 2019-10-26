@@ -244,6 +244,33 @@ export const wrapRootElement = ({ element }) => {
   )
 }
 ```
+5. Create folder src/styles and create style.js for our global style
+```jsx
+import { makeStyles } from "@material-ui/core"
+
+const useStyles = makeStyles(theme => ({
+  
+}))
+
+export default useStyles
+```
+
+6. Create a mui styled Link component with React.forwardRef.
+```jsx
+import React from "react"
+import MuiLink from "@material-ui/core/Link"
+import { Link as GatsbyLink } from "gatsby"
+
+const Link = React.forwardRef(function Link(props, ref) {
+  return <MuiLink component={GatsbyLink} style={{ textDecoration: "none" }} ref={ref} {...props} />
+})
+
+export default Link
+
+```
+
+6. We will adjust ui components first, and then create layouts for faster loading speed. It is recommended to test components on [codesandbox.io](codesandbox.io).
+  Let's create the FeaturedBlog Card component
 
 
 

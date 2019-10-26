@@ -12,7 +12,7 @@ export const wrapRootElement = ({ element }) => {
       ...jssPreset(),
     })}>
       <ThemeProvider theme={siteTheme}>
-          {element}
+        {element}
       </ThemeProvider>
     </StylesProvider>
   )
