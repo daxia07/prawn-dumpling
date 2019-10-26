@@ -14,12 +14,19 @@
   "homepage": "http://www.prawn-dumpling.com/",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.5.1",
+    "@material-ui/icons": "^4.5.1",
+    "@material-ui/styles": "^4.5.0",
     "babel-eslint": "^10.0.3",
+    "clsx": "^1.0.4",
     "gatsby": "^2.17.4",
     "gatsby-plugin-react-helmet": "^3.1.13",
     "gatsby-plugin-sharp": "^2.2.32",
     "global": "^4.4.0",
-    "react-dom": "^16.11.0"
+    "jss": "^10.0.0",
+    "react-dom": "^16.11.0",
+    "react-helmet": "^5.2.1",
+    "react-jss": "^10.0.0"
   },
   "devDependencies": {
     "eslint": "^6.6.0",

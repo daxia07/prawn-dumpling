@@ -36,7 +36,7 @@ npm init -y
 ```
 npm i -g gatsby-cli
 ```
-install packages: *gatsby, gatsby-plugin-react-helmet, gatsby-plugin-sharp, react-dom* with command
+install packages: *gatsby, gatsby-plugin-react-helmet, gatsby-plugin-sharp, react-dom react-helmet* with command
 ```
 yarn add gatsby gatsby-plugin-react-helmet gatsby-plugin-sharp react-dom
 ```
@@ -101,3 +101,152 @@ module.exports = {
 }
 ```
 
+**Now that the development environments are all set up, let's head for the next chapter**
+
+## Configure head
+Create file gatsby-config.js under frontend folder, and add siteMetaData and gatsby plugins
+```jsx
+module.exports = {
+  siteMetadata: {
+    title: 'prawn-dumpling',
+    author: 'Mingxia Li',
+    description: 'Personal blog by Mingxia Li. A place to share tutorials, recipes and thinking minds.',
+    siteUrl: 'https://prawn-dumpling.com',
+  },
+  pathPrefix: '/',
+  plugins: [
+    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-sharp`,
+  ]
+}
+```
+
+
+
+## UI Components
+We are going to use [material ui](https://material-ui.com/ "material ui"), as it saves a lot of efforts with handy components already designed and adjusted for production. 
+1. install material ui and related packages with command
+```
+yarn add @material-ui/core @material-ui/icons @material-ui/styles clsx jss react-jss
+```
+2. Create a folder under src named `components`, and create a seo.js file to add metadata and stylesheets for googlefonts and icons
+```jsx
+import React from "react"
+import PropTypes from "prop-types"
+import Helmet from "react-helmet"
+import { useStaticQuery, graphql } from "gatsby"
+
+function SEO({ description, lang, meta, title }) {
+  const { site } = useStaticQuery(
+    graphql`
+        query {
+            site {
+                siteMetadata {
+                    title
+                    description
+                    author
+                }
+            }
+        }
+    `,
+  )
+
+  const metaDescription = description || site.siteMetadata.description
+
+  return (
+    <Helmet
+      htmlAttributes={{
+        lang,
+      }}
+      title={title}
+      titleTemplate={`%s | ${site.siteMetadata.title}`}
+      meta={[
+        {
+          name: `description`,
+          content: metaDescription,
+        },
+        {
+          name: `viewport`,
+          content: `minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no`,
+        },
+        {
+          name: "theme-color",
+          content: "#3f51b5",
+        },
+
+      ].concat(meta)}
+    >
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+
+    </Helmet>
+  )
+}
+
+SEO.defaultProps = {
+  lang: `en`,
+  meta: [],
+  description: ``,
+}
+
+SEO.propTypes = {
+  description: PropTypes.string,
+  lang: PropTypes.string,
+  meta: PropTypes.arrayOf(PropTypes.object),
+  title: PropTypes.string.isRequired,
+}
+
+export default SEO
+```
+we used staticQuery from gatsby to fetch metadata we just defined in gatsby-config
+
+3. Create a theme file under frontend/src/assets/siteTheme.js
+```jsx
+import { createMuiTheme, responsiveFontSizes } from "@material-ui/core"
+
+let siteTheme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: "#009688",
+    },
+    text: {
+      primary: "#000",
+    },
+  },
+})
+
+siteTheme = responsiveFontSizes(siteTheme)
+
+export default siteTheme
+```
+Mostly, we put our custom colors in this siteTheme, and we allow material ui to adjust font size automatically for us.
+
+
+4. Wrap root components with StyleProvider and ThemeProvider. This part is a little tricky for gatsby, unlike CRA, there isn't a root component to wrap up with. Official work around is to use wrapRootElement available in gatsby-browser.js, so create this file and add code below
+```jsx
+import React from "react"
+import { StylesProvider } from "@material-ui/styles"
+import { jssPreset } from "@material-ui/styles"
+import { create } from "jss"
+import { ThemeProvider } from "@material-ui/styles"
+import siteTheme from "./src/assets/siteTheme"
+
+
+export const wrapRootElement = ({ element }) => {
+  return (
+    <StylesProvider jss={create({
+      ...jssPreset(),
+    })}>
+      <ThemeProvider theme={siteTheme}>
+        {element}
+      </ThemeProvider>
+    </StylesProvider>
+  )
+}
+```
+
+
+
+## Layouts
+## Markdown blogs
+## Styling

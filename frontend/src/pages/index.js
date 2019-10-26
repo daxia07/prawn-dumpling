@@ -1,9 +1,11 @@
 import React from 'react'
+import SEO from '../components/seo';
 
 const index = () => {
   return (
     <div>
-      hello
+      <SEO title="home"/>
+        hello
     </div>
   )
 }
