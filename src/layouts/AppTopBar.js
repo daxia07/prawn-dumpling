@@ -19,7 +19,7 @@ import PropTypes from "prop-types"
 import { capitalize } from "../utils/stringUtils"
 import { ListRenderer, defaultNavItems } from "../assets/constants"
 import Link from "../components/Link"
-import SearchBar from "../components/SearchBar"
+// import SearchBar from "../components/SearchBar"
 import AccountBoxRoundedIcon from "@material-ui/icons/AccountBoxRounded"
 
 const drawerWidth = 240
@@ -164,7 +164,7 @@ const AppTopBar = ({ siteTitle, main, isAuth, items }) => {
           <Typography variant="h6" noWrap>
             {capitalize(title)}
           </Typography>
-          <SearchBar/>
+          {/* <SearchBar/> */}
         </Toolbar>
       </AppBar>
       <Drawer

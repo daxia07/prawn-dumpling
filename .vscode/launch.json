@@ -6,7 +6,7 @@
       "type": "node",
       "request": "launch",
       "protocol": "inspector",
-      "program": "${workspaceRoot}/frontend/node_modules/gatsby/dist/bin/gatsby",
+      "program": "${workspaceRoot}/node_modules/gatsby/dist/bin/gatsby",
       "args": ["develop"],
       "stopOnEntry": false,
       "runtimeArgs": ["--nolazy"],
@@ -17,7 +17,7 @@
       "type": "node",
       "request": "launch",
       "protocol": "inspector",
-      "program": "${workspaceRoot}/frontend/node_modules/gatsby/dist/bin/gatsby",
+      "program": "${workspaceRoot}/node_modules/gatsby/dist/bin/gatsby",
       "args": ["build"],
       "stopOnEntry": false,
       "runtimeArgs": ["--nolazy"],
@@ -28,14 +28,14 @@
       "request": "launch",
       "name": "Launch Chrome against localhost",
       "url": "http://localhost:8000",
-      "webRoot": "${workspaceFolder}/frontend/src",
+      "webRoot": "${workspaceFolder}/src",
       "breakOnLoad": true,
       "sourceMaps": true,
       "sourceMapPathOverrides": {
         "*": "${webRoot}/*"
       },
       "skipFiles": [
-        "${workspaceFolder}/frontend/node_modules/**/*.js",
+        "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**/*.js",
       ],
       "smartStep": true

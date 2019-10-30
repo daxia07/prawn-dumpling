@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton"
 import { makeStyles } from "@material-ui/core"
 import Link from "../components/Link"
 import { capitalize } from "../utils/stringUtils"
-import SearchBar from "../components/SearchBar"
+// import SearchBar from "../components/SearchBar"
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded"
 import navigate from "../utils/navigate"
 
@@ -59,7 +59,7 @@ const Header = ({ siteTitle, isAuth }) => {
           {capitalize(title)}</Link>
       </Typography>
       <IconButton>
-        <SearchBar/>
+        {/* <SearchBar/> */}
       </IconButton>
       {isAuth ? <AccountCircleRoundedIcon onClick={navToAccount}/> :
         <Button variant="outlined" size="small" onClick={navToAccount}>
