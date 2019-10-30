@@ -1,11 +1,27 @@
 import React from "react"
-import useStyles from "../styles/style"
+import { makeStyles } from "@material-ui/core"
+import PropTypes from "prop-types"
 import { Typography, Card, CardActionArea, CardContent, Grid, Hidden, CardMedia } from "@material-ui/core"
+
+const useStyles = makeStyles(theme => ({
+  mainGrid: {
+    marginTop: theme.spacing(2),
+  },
+  card: {
+    display: "flex",
+  },
+  cardDetails: {
+    flex: 1,
+  },
+  cardMedia: {
+    width: 160,
+  },
+}))
 
 const SubFeaturedPost = ({ posts }) => {
   const classes = useStyles()
   return (
-    <Grid container spacing={4} className={classes.cardGrid}>
+    <Grid container spacing={4} className={classes.mainGrid}>
       {posts.map(post => (
         <Grid item key={post.slug} xs={12} md={6}>
           <CardActionArea component="a" href={`/blog/${post.slug}/`}>
@@ -39,5 +55,9 @@ const SubFeaturedPost = ({ posts }) => {
     </Grid>
   )
 }
+
+SubFeaturedPost.propTypes = {
+  posts: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 export default SubFeaturedPost

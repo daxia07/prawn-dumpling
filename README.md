@@ -287,10 +287,407 @@ export const post = {
   slug: `/`
 }
 ```
-  Let's create the FeaturedBlog Card component
+  Let's create our UI components!
+
+## Components
+1. Feature Post
+  for feature post, we are going to use a Card component from @material/core, and write title, description and read more instruction on CardContent. Grid is used to divide the canvas into half to prevent the line to get too long. Two empty paragraphs to hold the space. We can adjust them for better responsive performance with theme.breakpoints
+  ```jsx
+  import React from "react";
+  import PropTypes from "prop-types";
+  import CardContent from '@material-ui/core/CardContent';
+  import CardActions from '@material-ui/core/CardActions';
+  import CardMedia from '@material-ui/core/CardMedia';
+  import Card from "@material-ui/core/Card";
+  import ButtonBase from "@material-ui/core/ButtonBase";
+  import Typography from "@material-ui/core/Typography";
+  import { makeStyles } from "@material-ui/core";
+  import Grid from "@material-ui/core/Grid";
+  import navigate from "../utils/navigate"
+
+  const useStyles = makeStyles(theme => ({
+    card: {
+      backgroundColor: theme.palette.grey[800],
+      color: theme.palette.common.white,
+      marginBottom: theme.spacing(4),
+      margin: `auto`,
+      borderRadius: `5px!important`
+    },
+    cardButton: {
+      display: "block",
+      textAlign: "initial",
+      width: `100%`
+    },
+    media: {
+      minHeight: 200,
+      width: `100%`,
+      backgroundSize: `cover!important`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center"
+    },
+    pos: {
+      paddingTop: 30,
+    },
+    content: {
+      paddingLeft: theme.spacing(4),
+      [theme.breakpoints.down("xs")]: {
+        paddingLeft: theme.spacing(1)
+      }
+    },
+    btn: {
+      paddingLeft: 0,
+      paddingTop: 20
+    }
+  }));
+
+  const handleClick = (url) => {
+    navigate(to=url)
+  }
+
+  const FeaturedPost = ({ post }) =>  {
+    const classes = useStyles();
+    console.log(post)
+    return (
+      <div>
+        <Card className={classes.card}>
+          <ButtonBase
+            className={classes.cardButton}
+            onClick={() => handleClick(post.url)}>
+            <CardMedia
+              className={classes.media}
+              image={post.imgUrl}
+              title="Contemplative Reptile"
+            >
+              <Grid container style={{ height: `100%` }}>
+                <Grid item md={6}>
+                  <CardContent className={classes.content}>
+                  <Typography className={classes.pos} gutterBottom>
+                  </Typography>
+                    <Typography variant="h5" component="h2">
+                      {post.title}
+                    </Typography>
+                    <Typography className={classes.pos}>
+
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                      {post.description}
+                      <br />
+                    </Typography>
+                    <CardActions className={classes.btn}>
+                      <Typography variant='button' size="small" color="primary" gutterBottom>
+                        Learn More
+                      </Typography>
+                    </CardActions>
+                  </CardContent>
+                </Grid>
+              </Grid>
+
+            </CardMedia>
+          </ButtonBase>
+        </Card>
+      </div>
+    );
+  }
+
+  FeaturedPost.propTypes = {
+    post: PropTypes.object.isRequired
+  };
+
+  export default FeaturedPost;
+```
+let's include this component in src/pages/index.js, and pass post prop with mockData
+
+2. After we finish the feature post, let's work on the sub feature post component. Create a new component name SubFeaturedPost.js under src/components/
+
+```jsx
+import React from "react"
+import { makeStyles } from "@material-ui/core"
+import { Typography, Card, CardActionArea, CardContent, Grid, Hidden, CardMedia } from "@material-ui/core"
+
+const useStyles = makeStyles(theme => ({
+  mainGrid: {
+    marginTop: theme.spacing(2),
+  },
+  card: {
+    display: "flex",
+  },
+  cardDetails: {
+    flex: 1,
+  },
+  cardMedia: {
+    width: 160,
+  },
+}))
+
+const SubFeaturedPost = ({ posts }) => {
+  const classes = useStyles()
+  return (
+    <Grid container spacing={4} className={classes.mainGrid}>
+      {posts.map(post => (
+        <Grid item key={post.slug} xs={12} md={6}>
+          <CardActionArea component="a" href={`/blog/${post.slug}/`}>
+            <Card className={classes.card}>
+              <div className={classes.cardDetails}>
+                <CardContent>
+                  <Typography component="h2" variant="h5">
+                    {post.title}
+                  </Typography>
+                  <Typography variant="subtitle1" color="textSecondary">
+                    {post.date}
+                  </Typography>
+                  <Typography variant="subtitle1" paragraph>
+                    {post.description}
+                  </Typography>
+                  <Typography variant="subtitle1" color="primary">
+                    continue reading...
+                  </Typography>
+                </CardContent>
+              </div>
+              <Hidden xsDown>
+                <CardMedia
+                  className={classes.cardMedia}
+                  image={post.imgUrl}
+                  title={post.imgTitle}/>
+              </Hidden>
+            </Card>
+          </CardActionArea>
+        </Grid>
+      ))}
+    </Grid>
+  )
+}
+
+SubFeaturedPost.propTypes = {
+  posts: PropTypes.arrayOf(PropTypes.object).isRequired
+};
+
+export default SubFeaturedPost
+```
+
+3. Create a blog brief card component under src/components, add more values to mockPost
+```javascript
+{
+  avatar: `https://images.ctfassets.net/f53ma7mq4czu/5lD0VUJDjZ698De4AGJaDf/6b150f94c8343560eea9c9e107e1b00c/Screen_Shot_2019-08-25_at_21.22.19.png?h=250`,
+  name: `alienz`,
+  firstName: `Mingxia`,
+  lastName: `Li`,
+  excerpt: `Great place to learn new things`,
+  tags: ['dev', 'life'],
+  createdAt: new Date()
+}
+```
+Add code
+```jsx
+import React from "react"
+import clsx from "clsx"
+import Card from "@material-ui/core/Card"
+import CardHeader from "@material-ui/core/CardHeader"
+import CardMedia from "@material-ui/core/CardMedia"
+import CardContent from "@material-ui/core/CardContent"
+import CardActions from "@material-ui/core/CardActions"
+import Collapse from "@material-ui/core/Collapse"
+import Avatar from "@material-ui/core/Avatar"
+import IconButton from "@material-ui/core/IconButton"
+import Typography from "@material-ui/core/Typography"
+import FavoriteIcon from "@material-ui/icons/Favorite"
+import ShareIcon from "@material-ui/icons/Share"
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder"
+import Link from "./Link"
+import ArticleTags from "./ArticleTags"
+import ChatBubbleOutlineRoundedIcon from "@material-ui/icons/ChatBubbleOutlineRounded"
+import StarBorderRoundedIcon from "@material-ui/icons/StarBorderRounded"
+import makeStyles from "@material-ui/core/styles/makeStyles"
+
+const useStyles = makeStyles(theme => ({
+  card: {
+    // maxWidth: 550,
+    width: `100%`,
+    boxShadow: `none`,
+    borderRadius: `5px 5px 0 0`,
+    marginTop: 15,
+  },
+  bbMedia: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+    // margin: "-70px auto 0",
+    [theme.breakpoints.down("md")]: {
+      paddingTop: "40%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: "30%",
+    },
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
+  avatar: {
+    marginLeft: 20,
+    width: 72,
+    height: 72,
+    [theme.breakpoints.down("sm")]: {
+      width: 50,
+      height: 50,
+    },
+  },
+  link: {
+    textDecoration: "none",
+    color: theme.palette.primary.light,
+  },
+  comments: {
+    marginRight: `1rem`,
+  },
+  numero: {
+    position: `relative`,
+    top: `-0.5rem`,
+    textDecoration: `none`,
+  },
+  blogFooter: {
+    borderTop: `1px solid lighten(#333, 70%)`,
+    margin: `0 auto`,
+    paddingBottom: `.125rem`,
+    width: `80%`,
+    "& ul": {
+      listStyle: `none`,
+      display: `flex`,
+      flex: `row wrap`,
+      justifyContent: `flex-end`,
+      paddingLeft: 0,
+    },
+    "& li:first-child": {
+      marginRight: `auto`,
+    },
+    "& li + li": {
+      marginLeft: `.5rem`,
+    },
+    "& li": {
+      color: `#999999`,
+      fontSize: `.75rem`,
+      height: `1.5rem`,
+      letterSpacing: `1px`,
+      lineHeight: `1.5rem`,
+      textAlign: `center`,
+      textTransform: `uppercase`,
+      position: `relative`,
+      whiteSpace: `nowrap`,
+      "& a": {
+        color: `#999999`,
+      },
+    },
+  },
+  icons: {
+    fill: `lighten(#333, 40%)`,
+    height: `24px`,
+    marginRight: `.5rem`,
+    transition: `.25s ease`,
+    width: `24px`,
+    "&:hover": {
+      fill: `#ff4d4d`,
+    },
+  },
+}))
+
+export default function BlogBriefCard({ post }) {
+  const {
+    imgUrl, avatar, name, firstName, lastName, title, slug, description,
+    excerpt, tags, createdAt,
+  } = post
+  const classes = useStyles()
+  const [expanded, setExpanded] = React.useState(false)
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded)
+  }
+
+  return (
+    <Card className={classes.card}>
+      <CardHeader
+        avatar={
+          <Link to={`/user/${name}/`}>
+            <Avatar aria-label="author" alt={name} src={avatar} className={classes.avatar}/>
+          </Link>
+        }
+        action={
+          <IconButton aria-label="follow">
+            <BookmarkBorderIcon/>
+          </IconButton>
+        }
+        title={
+          <Typography variant="h6" gutterBottom className={classes.blogAuthorName}>
+            <Link to={`/blog/${slug}`}>{title}</Link>
+          </Typography>
+        }
+        subheader={`created by ${firstName} ${lastName} @ ${createdAt}`}
+      />
+      <CardMedia
+        className={classes.bbMedia}
+        image={imgUrl}
+        title="hero image"
+      />
+      <CardContent>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {description}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon/>
+        </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon/>
+        </IconButton>
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded,
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon/>
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>
+            {excerpt}
+          </Typography>
+          <Link to={`blog/${slug}/`} className={classes.link}>
+            <Typography variant="subtitle1" paragraph className={classes.readMore} color="primary">
+              Continue reading...
+            </Typography>
+          </Link>
+          <ArticleTags tags={tags}/>
+          <div className={classes.blogFooter}>
+            <ul>
+              <li className={classes.publishedDate} style={{ display: `none` }}>{createdAt}</li>
+              <li className={classes.comments}><Link to="#">
+                <ChatBubbleOutlineRoundedIcon className={classes.icons}/>
+                <span className={classes.numero}>4</span></Link></li>
+              <li className="shares"><Link to="#">
+                <StarBorderRoundedIcon className={classes.icons}/>
+                <span className={classes.numero}>1</span></Link></li>
+            </ul>
+          </div>
+        </CardContent>
+      </Collapse>
+    </Card>
+  )
+}
+```
+
+4. AuthorBox component
 
 
-7.
+
+
 ## Layouts
 1. Create folder src/layout
 ## Markdown blogs
