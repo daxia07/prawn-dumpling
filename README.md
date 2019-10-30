@@ -1,5 +1,5 @@
 # prawn-dumpling
-personal website including both frontend and backend
+personal website 
 
 ## Tutorial
 ## Intro
@@ -27,8 +27,7 @@ In this part, we are going to write our own material ui themed components, compo
 
 ## Init
 1. Create a new repo with Node type .gitignore, a MIT LICENSE and brief README.md on Github, and clone it to your disk. 
-2. make two directories named by frontend and backend.
-3. cd into frontend, and run 
+2. cd into root, and run 
 ```
 npm init -y
 ```
@@ -42,7 +41,7 @@ yarn add gatsby gatsby-plugin-react-helmet gatsby-plugin-sharp react-dom
 ```
 A brief intro, react-helmet plugin generates html head where meta data and stylesheets resides, sharp plugin helps improve image performance.
 
-5. mkdir under frontend folder src/pages, add a file named index.js with code
+5. mkdir under root folder src/pages, add a file named index.js with code
 ```jsx
 import React from 'react'
 
@@ -62,7 +61,7 @@ gatsby develop
 ```
 Then visit url `localhost:8000`, you should be able to see your greetings you just wrote, then we are ready to go
 
-6. Install VSCode if it was not already in your computer, and configure your launch.json as instructed in official [webpage](https://www.gatsbyjs.org/docs/debugging-the-build-process/ "webpage"). **Don't Forget To Add `frontend` to your launch configuration path!**
+6. Install VSCode if it was not already in your computer, and configure your launch.json as instructed in official [webpage](https://www.gatsbyjs.org/docs/debugging-the-build-process/ "webpage"). 
 
 7. Install devDeps eslint, eslint-plugin-react and prettier
 ```
@@ -77,7 +76,7 @@ add command scripts to package.json
     "bns": "rm -rf public && rm -rf .cache && gatsby build && gatsby serve"
   },
 ```
-add .eslintrc.js, .prettierrc and .prettierignore files to frontend folder
+add .eslintrc.js, .prettierrc and .prettierignore files to root folder
 ```jsx
 module.exports = {
   "env": {
@@ -104,7 +103,7 @@ module.exports = {
 **Now that the development environments are all set up, let's head for the next chapter**
 
 ## Configure head
-Create file gatsby-config.js under frontend folder, and add siteMetaData and gatsby plugins
+Create file gatsby-config.js under root folder, and add siteMetaData and gatsby plugins
 ```jsx
 module.exports = {
   siteMetadata: {
@@ -200,7 +199,7 @@ export default SEO
 ```
 we used staticQuery from gatsby to fetch metadata we just defined in gatsby-config
 
-3. Create a theme file under frontend/src/assets/siteTheme.js
+3. Create a theme file under src/assets/siteTheme.js
 ```jsx
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core"
 
@@ -268,12 +267,31 @@ const Link = React.forwardRef(function Link(props, ref) {
 export default Link
 
 ```
+Then let's create a navigate component under src/utils with window type check to ignore gatsby build error 
 
-6. We will adjust ui components first, and then create layouts for faster loading speed. It is recommended to test components on [codesandbox.io](codesandbox.io).
+```jsx
+import { navigate as gNav } from "gatsby"
+
+const navigate = typeof window !== "undefined" ? gNav : () => {
+}
+
+export default navigate
+```
+
+6. We will adjust ui components first, and then create layouts for faster loading speed. It is recommended to test components on [codesandbox.io](codesandbox.io). First create a mock data file under src/assets/mockPost.js
+```jsx
+export const post = {
+  imgUrl: `https://images.ctfassets.net/f53ma7mq4czu/6rBV0A1p0o9jBXhx65aPQk/2742ceb…/photo-1451187580459-43490279c0fa`,
+  title: `My Fresh New Website`,
+  description: `Welcome to prawn-dumpling website! I hope you will find something interesting here!`,
+  slug: `/`
+}
+```
   Let's create the FeaturedBlog Card component
 
 
-
+7.
 ## Layouts
+1. Create folder src/layout
 ## Markdown blogs
 ## Styling

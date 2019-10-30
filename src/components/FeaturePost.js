@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import Link from "./Link"
 import useStyles from "../styles/style"
+import { post } from '../assets/mockPost';
 
 const FeaturedPost = ({ post }) => {
   const { imgUrl, title, description, slug } = post
