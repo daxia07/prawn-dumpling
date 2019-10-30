@@ -5,6 +5,7 @@ import Avatar from "@material-ui/core/Avatar"
 import Typography from "@material-ui/core/Typography"
 import Link from "./Link"
 import makeStyles from "@material-ui/core/styles/makeStyles"
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -47,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function AuthorCard({ post }) {
+const AuthorCard = ({ post }) => {
   const {
     avatar, bio, firstName, lastName, name,
   } = post
@@ -73,3 +74,11 @@ export default function AuthorCard({ post }) {
     </Card>
   )
 }
+
+
+AuthorCard.propTypes = {
+  post: PropTypes.object.isRequired
+};
+
+
+export default AuthorCard
