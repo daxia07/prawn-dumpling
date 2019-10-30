@@ -18,7 +18,7 @@ import ArticleTags from "./ArticleTags"
 import ChatBubbleOutlineRoundedIcon from "@material-ui/icons/ChatBubbleOutlineRounded"
 import StarBorderRoundedIcon from "@material-ui/icons/StarBorderRounded"
 import makeStyles from "@material-ui/core/styles/makeStyles"
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 
 const useStyles = makeStyles(theme => ({
@@ -121,7 +121,6 @@ const BlogBriefCard = ({ post }) => {
     imgUrl, avatar, name, firstName, lastName, title, slug, description,
     excerpt, tags, createdAt,
   } = post
-  console.log(post)
   const classes = useStyles()
   const [expanded, setExpanded] = React.useState(false)
 
@@ -204,6 +203,7 @@ const BlogBriefCard = ({ post }) => {
     </Card>
   )
 }
+
 
 BlogBriefCard.propTypes = {
   post: PropTypes.object.isRequired

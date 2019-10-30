@@ -80,7 +80,7 @@ const FeaturedPost = ({ post }) =>  {
                   </Typography>
                   <CardActions className={classes.btn}>
                     <Typography variant='button' size="small" color="primary" gutterBottom>
-                      Learn More
+                      Read More
                     </Typography>
                   </CardActions>
                 </CardContent>

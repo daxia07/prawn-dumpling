@@ -5,7 +5,7 @@ import Avatar from "@material-ui/core/Avatar"
 import Typography from "@material-ui/core/Typography"
 import Link from "./Link"
 import makeStyles from "@material-ui/core/styles/makeStyles"
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
   card: {

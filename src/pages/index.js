@@ -4,8 +4,9 @@ import FeaturedPost from '../components/FeaturePost';
 
 import { post } from "../assets/mockPost";
 import SubFeaturedPost from '../components/SubFeaturedPost';
-import BlogBriefCard from '../components/BlogBriefCard';
 import AuthorCard from '../components/AuthorCard';
+
+import BlogBriefCard from '../components/BlogBriefCard';
 
 
 const index = () => {
@@ -14,8 +15,9 @@ const index = () => {
       <SEO title="home" />
       <FeaturedPost post={post} />
       <SubFeaturedPost posts={[post, post]} />
-      <BlogBriefCard post={post} />
       <AuthorCard post={post}/>
+
+      <BlogBriefCard post={post}/>
     </div>
   )
 }

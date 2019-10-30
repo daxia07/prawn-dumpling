@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "gatsby"
 import useStyles from "../styles/style"
+import PropTypes from 'prop-types'
 
 const ArticleTags = ({ tags }) => {
   const classes = useStyles()
@@ -15,6 +16,10 @@ const ArticleTags = ({ tags }) => {
       </div>
     </div>
   )
+}
+
+ArticleTags.PropTypes = {
+  tags: PropTypes.array
 }
 
 export default ArticleTags

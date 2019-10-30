@@ -9,5 +9,6 @@ export const post = {
   lastName: `Li`,
   excerpt: `Great place to learn new things`,
   tags: ['dev', 'life'],
-  createdAt: new Date()
+  createdAt: new Date(),
+  date: '2019-10-24'
 }
