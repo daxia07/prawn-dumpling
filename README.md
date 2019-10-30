@@ -794,7 +794,157 @@ AuthorBox.propTypes = {
 export default AuthorCard
 ```
 
+6. BlogHead component
+```jsx
+import React from "react"
+import PropTypes from 'prop-types'
+import { Typography } from "@material-ui/core"
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
+const useStyles = makeStyles(theme => ({
+  mainHeading: {
+    padding: `1rem 0`,
+  },
+  postTitle: {
+    fontWeight: 700,
+    marginBottom: `1rem`,
+    color: `#111111`,
+    fontSize: `2.5rem`,
+    lineHeight: 1.1,
+  },
+  postDate: {
+    color: `rgba(0, 0, 0, .54)`,
+    display: `inline-block`,
+    fontFamily: `PT Sans`,
+    fontSize: 15,
+    fontWeight: 400,
+    lineHeight: 1.5,
+  },
+  dot: {
+    marginLeft: 3,
+    marginRight: 3,
+  },
+
+}))
+
+
+const BlogHead = ({ post }) => {
+  const {title, createdAt, timeToRead, words} = post;
+  const classes = useStyles();
+
+  return (
+    <div className={`${classes.mainHeading}`}>
+      <Typography variant={"h3"} className={classes.postTitle}>
+        {title}
+      </Typography>
+      <p><span className={classes.postDate}><time className={classes.postDate}>{createdAt}</time></span>
+        <span className={classes.dot}>&middot;</span>
+        <span className={classes.postDate}>{timeToRead} min read</span>
+        <span className={classes.dot}>&middot;</span>
+        <span className={classes.postDate}>{` ${words} words`}</span>
+      </p>
+    </div>
+  )
+}
+
+BlogHead.PropTypes = {
+  post: PropTypes.object.isRequired
+}
+
+export default BlogHead
+```
+
+7. Before we move on to BlogBody component, we should convert our MarkDown file to HTML with good styling. First, we should install a new package named 'markdown-to-jsx'
+```
+yarn add markdown-to-jsx
+```
+Create a js file named Markdown.js under utils folder
+```jsx
+import React from 'react';
+import ReactMarkdown from 'markdown-to-jsx';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
+
+const styles = theme => ({
+  listItem: {
+    marginTop: theme.spacing(1),
+  },
+});
+
+const options = {
+  overrides: {
+    h1: {
+      component: Typography,
+      props: {
+        gutterBottom: true,
+        variant: 'h4',
+      },
+    },
+    h2: { component: Typography, props: { gutterBottom: true, variant: 'h6' } },
+    h3: { component: Typography, props: { gutterBottom: true, variant: 'subtitle1' } },
+    h4: {
+      component: Typography,
+      props: { gutterBottom: true, variant: 'caption', paragraph: true },
+    },
+    p: { component: Typography, props: { paragraph: true } },
+    a: { component: Link },
+    li: {
+      component: withStyles(styles)(({ classes, ...props }) => (
+        <li className={classes.listItem}>
+          <Typography component="span" {...props} />
+        </li>
+      )),
+    },
+  },
+};
+
+export default function Markdown(props) {
+  return <ReactMarkdown options={options} {...props} />;
+}
+```
+
+8. Blog body component
+we add a new key `body` to the post object of mockdata, with the value of a markdown formatted blog post
+```jsx
+import React from "react"
+import { Link as GLink } from "gatsby"
+import useStyles from "../styles/style"
+import ArticleTags from "./ArticleTags"
+import Markdown from '../utils/Markdown';
+import PropTypes from 'prop-types';
+
+const BlogBody = ({ post }) => {
+  const { body, imgUrl, tags, category } = post
+
+  const classes = useStyles()
+
+  return (
+    <React.Fragment>
+      <img src={imgUrl} className={classes.featuredImage} alt={"feature"}/>
+      <div style={{ position: `relative` }}>
+        <div className={classes.postCategory}>
+          <GLink to={`/${category}/`} style={{ textDecoration: `none`, color: `#FFF` }}>{category}</GLink>
+        </div>
+        <article className={classes.articlePost}>
+          <Markdown>
+            {body}
+          </Markdown>
+        </article>
+        <ArticleTags tags={tags}/>
+      </div>
+    </React.Fragment>
+  )
+}
+
+BlogBody.propTypes = {
+  post: PropTypes.object.isRequired
+}
+
+export default BlogBody
+```
+
+**That's all the components we are going to use by now, let's create the layout in the next chapter**
 
 
 

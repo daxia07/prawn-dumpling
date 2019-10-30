@@ -49,8 +49,8 @@ const BlogHead = ({ post }) => {
   )
 }
 
-BlogHead.PropTypes = {
+BlogHead.propTypes = {
   post: PropTypes.object.isRequired
-}
+};
 
 export default BlogHead

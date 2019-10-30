@@ -51,7 +51,6 @@ const handleClick = (url) => {
 
 const FeaturedPost = ({ post }) =>  {
   const classes = useStyles();
-  console.log(post)
   return (
     <div>
       <Card className={classes.card}>

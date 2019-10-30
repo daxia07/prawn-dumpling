@@ -7,6 +7,7 @@ import SubFeaturedPost from '../components/SubFeaturedPost';
 import AuthorCard from '../components/AuthorCard';
 import BlogBriefCard from '../components/BlogBriefCard';
 import BlogHead from '../components/BlogHead';
+import BlogBody from '../components/BlogBody';
 
 
 const index = () => {
@@ -18,6 +19,7 @@ const index = () => {
       <BlogBriefCard post={post}/>
       <AuthorCard post={post} />
       <BlogHead post={post} />
+      <BlogBody post={post} />
     </div>
   )
 }

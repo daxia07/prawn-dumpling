@@ -1,12 +1,15 @@
 import React from "react"
-import ReactMarkdown from "markdown-to-jsx"
 import { Link as GLink } from "gatsby"
 import useStyles from "../styles/style"
 import ArticleTags from "./ArticleTags"
+import Markdown from '../utils/Markdown';
+import PropTypes from 'prop-types';
+
 
 
 const BlogBody = ({ post }) => {
   const { body, imgUrl, tags, category } = post
+
   const classes = useStyles()
 
   return (
@@ -17,14 +20,18 @@ const BlogBody = ({ post }) => {
           <GLink to={`/${category}/`} style={{ textDecoration: `none`, color: `#FFF` }}>{category}</GLink>
         </div>
         <article className={classes.articlePost}>
-          <ReactMarkdown>
+          <Markdown>
             {body}
-          </ReactMarkdown>
+          </Markdown>
         </article>
         <ArticleTags tags={tags}/>
       </div>
     </React.Fragment>
   )
+}
+
+BlogBody.propTypes = {
+  post: PropTypes.object.isRequired
 }
 
 export default BlogBody
