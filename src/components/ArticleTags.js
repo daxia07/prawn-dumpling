@@ -18,7 +18,7 @@ const ArticleTags = ({ tags }) => {
   )
 }
 
-ArticleTags.PropTypes = {
+ArticleTags.propTypes = {
   tags: PropTypes.array
 }
 
