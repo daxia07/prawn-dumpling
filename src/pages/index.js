@@ -8,12 +8,15 @@ import AuthorCard from '../components/AuthorCard';
 import BlogBriefCard from '../components/BlogBriefCard';
 import BlogHead from '../components/BlogHead';
 import BlogBody from '../components/BlogBody';
+// import Layout from '../layouts/layout'
+import Header from '../layouts/Header';
 
 
 const index = () => {
   return (
-    <div>
+    <div >
       <SEO title="home" />
+      <Header siteTitle="prawn-dumpling"/>
       <FeaturedPost post={post} />
       <SubFeaturedPost posts={[post, post]} />
       <BlogBriefCard post={post}/>

@@ -3,13 +3,13 @@ import React from "react"
 import Toolbar from "@material-ui/core/Toolbar"
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
-import IconButton from "@material-ui/core/IconButton"
 import { makeStyles } from "@material-ui/core"
 import Link from "../components/Link"
 import { capitalize } from "../utils/stringUtils"
-// import SearchBar from "../components/SearchBar"
-import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded"
 import navigate from "../utils/navigate"
+import SearchBar from '../components/SearchBar'
+import IconButton from "@material-ui/core/IconButton"
+
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const Header = ({ siteTitle, isAuth }) => {
+const Header = ({ siteTitle }) => {
   const classes = useStyles()
   const title = siteTitle.replace("-", " ")
   const navToAccount = evt => {
@@ -59,13 +59,8 @@ const Header = ({ siteTitle, isAuth }) => {
           {capitalize(title)}</Link>
       </Typography>
       <IconButton>
-        {/* <SearchBar/> */}
+        <SearchBar/>
       </IconButton>
-      {isAuth ? <AccountCircleRoundedIcon onClick={navToAccount}/> :
-        <Button variant="outlined" size="small" onClick={navToAccount}>
-          Sign up
-        </Button>
-      }
     </Toolbar>
   )
 }
