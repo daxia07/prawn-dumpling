@@ -23,6 +23,7 @@
     "gatsby": "^2.17.4",
     "gatsby-plugin-react-helmet": "^3.1.13",
     "gatsby-plugin-sharp": "^2.2.32",
+    "gatsby-source-contentful": "^2.1.55",
     "global": "^4.4.0",
     "jss": "^10.0.0",
     "markdown-to-jsx": "^6.10.3",

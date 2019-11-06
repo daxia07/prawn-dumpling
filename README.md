@@ -605,82 +605,6 @@ For different screen size, we will have different layout. For large screens, nav
 For bigger screen, header will hold them site name, subscribe button and a searchBar.<br/>
 Let's create a search bar component first.
 ```jsx
-import React, { useState } from "react"
-import SearchIcon from "@material-ui/icons/Search"
-import InputBase from "@material-ui/core/InputBase"
-import { makeStyles } from "@material-ui/core"
-import { fade } from "@material-ui/core/styles"
-import { useStaticQuery, graphql } from "gatsby"
-import Link from "./Link"
-import MenuItem from "@material-ui/core/MenuItem"
-import Downshift from "downshift"
-import Paper from "@material-ui/core/Paper"
-
-
-const useStyles = makeStyles(theme => ({
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 10,
-    width: "auto",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: "auto",
-      width: "auto",
-    },
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: 120,
-      "&:focus": {
-        width: 200,
-      },
-    },
-  },
-  root: {
-    flexGrow: 1,
-    height: `auto`,
-  },
-  container: {
-    flexGrow: 1,
-    position: "relative",
-  },
-  paper: {
-    position: "absolute",
-    zIndex: 1,
-    marginTop: theme.spacing(1),
-    left: 0,
-    right: 0,
-  },
-  chip: {
-    margin: theme.spacing(0.5, 0.25),
-  },
-  divider: {
-    height: theme.spacing(2),
-  },
-  resultPanel: {
-    marginTop: 38,
-  },
-}))
-
 const SearchBar = () => {
   const classes = useStyles()
 
@@ -749,44 +673,9 @@ const SearchBar = () => {
   )
 }
 
-export default SearchBar
 ```
 
 ```jsx
-import PropTypes from "prop-types"
-import React from "react"
-import Toolbar from "@material-ui/core/Toolbar"
-import Button from "@material-ui/core/Button"
-import Typography from "@material-ui/core/Typography"
-import { makeStyles } from "@material-ui/core"
-import Link from "../components/Link"
-import { capitalize } from "../utils/stringUtils"
-import navigate from "../utils/navigate"
-
-const useStyles = makeStyles(theme => ({
-  toolbar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    paddingLeft: `24px`,
-    paddingRight: `24px`,
-    display: `flex`,
-    position: `relative`,
-    alignItems: `center`,
-    minHeight: `64px`,
-  },
-  toolbarTitle: {
-    flex: 1,
-  },
-  toolbarSecondary: {
-    justifyContent: "space-between",
-    overflowX: "auto",
-  },
-  toolbarLink: {
-    padding: theme.spacing(1),
-    flexShrink: 0,
-  },
-}))
-
-
 const Header = ({ siteTitle }) => {
   const classes = useStyles()
   const title = siteTitle.replace("-", " ")
@@ -814,93 +703,12 @@ const Header = ({ siteTitle }) => {
   )
 }
 
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
-
-export default Header
 ```
 
 2. We will need a layout component to begin with. To prevent class names collisions, we need to provide a unique prefix for each page. Besides, we will query site title with staticQuery method from gatsby to set up title for each page. This component will change according to the width of screen be responsive. Additionally, we need to record if the drawer in layout is open, so we can push the main component aside a little. For smaller screen, nav bar items were hidden in a drawer. Once clicked, contents will be pushed away to the right. We pass useState hook to the child component to let Nav component to decide when to open or close the drawer.  Add another dependency named clsx to help add className to component when state changes.
 
 
 ```jsx
-import React, { useState } from "react"
-import PropTypes from "prop-types"
-import Footer from "./Footer"
-import { createGenerateClassName, CssBaseline } from "@material-ui/core"
-import Container from "@material-ui/core/Container"
-import NavBar from "./NavBar"
-import { JssProvider } from "react-jss"
-import { makeStyles } from "@material-ui/core"
-import SEO from '../components/seo'
-import { useStaticQuery } from 'gatsby'
-import { graphql } from 'gatsby'
-import clsx from 'clsx'
-
-
-const drawerWidth = 240
-
-const useStyles = makeStyles(theme => ({
-  container: {
-    width: `85%`,
-    maxWidth: `100%`,
-    position: `relative`,
-    marginLeft: `auto`,
-    marginRight: `auto`,
-    paddingRight: 15,
-    paddingLeft: 15,
-    marginTop: 5,
-    minHeight: `85vh`,
-    [theme.breakpoints.down("sm")]: {
-      width: `70%`,
-      paddingLeft: 0,
-      paddingRight: 0,
-      marginTop: 0,
-    },
-    [theme.breakpoints.down("xs")]: {
-      width: `95%`,
-      paddingLeft: 0,
-      paddingRight: 0,
-      marginTop: 0,
-    },
-  },
-  drawerHeader: {
-    [theme.breakpoints.up('sm')]: {
-      display: 'none'
-    },
-    [theme.breakpoints.down("sm")]: {
-      display: "flex",
-      alignItems: "center",
-      padding: theme.spacing(0, 1),
-      ...theme.mixins.toolbar,
-      justifyContent: "flex-end",
-    }
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: 0,
-    width: `100%`,
-  },
-  contentShift: {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-}))
-
-
 const Layout = ({ children, classPrefix, title }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -938,23 +746,10 @@ const Layout = ({ children, classPrefix, title }) => {
     </JssProvider>
   )
 }
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-export default Layout
-
 ```
 
 3. Footer component is pretty easy, it has a minimal height of 80vh to stay at bottom.
 ```jsx
-import React from "react"
-import Typography from "@material-ui/core/Typography"
-import Container from "@material-ui/core/Container"
-import useStyles from "../styles/style"
-import Copyright from "./Copyright"
-
 
 const Footer = () => (
     <footer className={useStyles().footer}>
