@@ -20,7 +20,7 @@ import { capitalize } from "../utils/stringUtils"
 import { ListRenderer, defaultNavItems } from "../assets/constants"
 import Link from "../components/Link"
 import AccountBoxRoundedIcon from "@material-ui/icons/AccountBoxRounded"
-
+import SearchBar from '../components/SearchBar';
 const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
@@ -126,20 +126,21 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const AppTopBar = ({ siteTitle, main, isAuth, items }) => {
+const AppTopBar = ({ siteTitle, items, drawerHandler, drawerOpen }) => {
   const navItems = items ? items : defaultNavItems
   const title = siteTitle.replace("-", " ")
   const classes = useStyles()
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
 
   const handleDrawerOpen = () => {
-    setOpen(true)
+    drawerHandler(true)
   }
 
   const handleDrawerClose = () => {
-    setOpen(false)
+    drawerHandler(false)
   }
+
+  console.log(drawerOpen)
 
   return (
     <div className={classes.root}>
@@ -147,7 +148,7 @@ const AppTopBar = ({ siteTitle, main, isAuth, items }) => {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: drawerOpen,
         })}
       >
         <Toolbar>
@@ -156,21 +157,21 @@ const AppTopBar = ({ siteTitle, main, isAuth, items }) => {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+            className={clsx(classes.menuButton, drawerOpen && classes.hide)}
           >
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6" noWrap>
             {capitalize(title)}
           </Typography>
-          {/* <SearchBar/> */}
+          <SearchBar/>
         </Toolbar>
       </AppBar>
       <Drawer
         className={classes.drawer}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={drawerOpen}
         classes={{
           paper: classes.drawerPaper,
         }}
@@ -187,20 +188,12 @@ const AppTopBar = ({ siteTitle, main, isAuth, items }) => {
             <ListItemIcon>
               <AccountBoxRoundedIcon/>
             </ListItemIcon>
-            <Link to="/account" style={{ color: `black` }}>
+            {/* <Link to="/account" style={{ color: `black` }}>
               <ListItemText primary={isAuth ? "Account" : "Login"}/>
-            </Link>
+            </Link> */}
           </ListItem>
         </List>
       </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
-      >
-        <div className={classes.drawerHeader}/>
-        {main}
-      </main>
     </div>
   )
 }

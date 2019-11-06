@@ -7,7 +7,7 @@ import AppTopBar from "./AppTopBar"
 import { ListRenderer, defaultNavItems } from "../assets/constants"
 
 
-const NavBar = ({ siteTitle, main, items }) => {
+const NavBar = ({ siteTitle, items, drawerHandler, drawerOpen }) => {
   const navItems = items ? items : defaultNavItems
   const classes = useStyles()
   const { width } = useWindowDimensions()
@@ -20,13 +20,12 @@ const NavBar = ({ siteTitle, main, items }) => {
           <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
             {ListRenderer(navItems, true)}
           </Toolbar>
-          <main>{main}</main>
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
-          <AppTopBar siteTitle={siteTitle} main={main} isAuth={isAuth} items={items}/>
+          <AppTopBar siteTitle={siteTitle} items={items} drawerHandler={drawerHandler} drawerOpen={drawerOpen}/>
         </React.Fragment>
       )
     }

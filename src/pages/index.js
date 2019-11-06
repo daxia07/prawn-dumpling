@@ -1,29 +1,25 @@
 import React from 'react'
-import SEO from '../components/seo';
 import FeaturedPost from '../components/FeaturePost';
-
 import { post } from "../assets/mockPost";
 import SubFeaturedPost from '../components/SubFeaturedPost';
 import AuthorCard from '../components/AuthorCard';
 import BlogBriefCard from '../components/BlogBriefCard';
 import BlogHead from '../components/BlogHead';
 import BlogBody from '../components/BlogBody';
-// import Layout from '../layouts/layout'
-import Header from '../layouts/Header';
+import Layout from '../layouts/layout';
+
 
 
 const index = () => {
   return (
-    <div >
-      <SEO title="home" />
-      <Header siteTitle="prawn-dumpling"/>
-      <FeaturedPost post={post} />
-      <SubFeaturedPost posts={[post, post]} />
-      <BlogBriefCard post={post}/>
-      <AuthorCard post={post} />
-      <BlogHead post={post} />
-      <BlogBody post={post} />
-    </div>
+      <Layout title="Home" classPrefix="idx">
+        <FeaturedPost post={post} />
+        <SubFeaturedPost posts={[post, post]} />
+        <BlogBriefCard post={post}/>
+        <AuthorCard post={post} />
+        <BlogHead post={post} />
+        <BlogBody post={post} />    
+      </Layout>
   )
 }
 

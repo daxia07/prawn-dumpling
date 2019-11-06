@@ -43,8 +43,6 @@ A brief intro, react-helmet plugin generates html head where meta data and style
 
 5. mkdir under root folder src/pages, add a file named index.js with code
 ```jsx
-import React from 'react'
-
 const index = () => {
   return (
     <div>
@@ -52,8 +50,6 @@ const index = () => {
     </div>
   )
 }
-
-export default index
 ```
 run command 
 ```
@@ -130,10 +126,6 @@ yarn add @material-ui/core @material-ui/icons @material-ui/styles clsx jss react
 ```
 2. Create a folder under src named `components`, and create a seo.js file to add metadata and stylesheets for googlefonts and icons
 ```jsx
-import React from "react"
-import PropTypes from "prop-types"
-import Helmet from "react-helmet"
-import { useStaticQuery, graphql } from "gatsby"
 
 function SEO({ description, lang, meta, title }) {
   const { site } = useStaticQuery(
@@ -181,28 +173,11 @@ function SEO({ description, lang, meta, title }) {
     </Helmet>
   )
 }
-
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
-}
-
-SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string.isRequired,
-}
-
-export default SEO
 ```
 we used staticQuery from gatsby to fetch metadata we just defined in gatsby-config
 
 3. Create a theme file under src/assets/siteTheme.js
 ```jsx
-import { createMuiTheme, responsiveFontSizes } from "@material-ui/core"
-
 let siteTheme = createMuiTheme({
   palette: {
     secondary: {
@@ -223,13 +198,6 @@ Mostly, we put our custom colors in this siteTheme, and we allow material ui to 
 
 4. Wrap root components with StyleProvider and ThemeProvider. This part is a little tricky for gatsby, unlike CRA, there isn't a root component to wrap up with. Official work around is to use wrapRootElement available in gatsby-browser.js, so create this file and add code below
 ```jsx
-import React from "react"
-import { StylesProvider } from "@material-ui/styles"
-import { jssPreset } from "@material-ui/styles"
-import { create } from "jss"
-import { ThemeProvider } from "@material-ui/styles"
-import siteTheme from "./src/assets/siteTheme"
-
 
 export const wrapRootElement = ({ element }) => {
   return (
@@ -245,10 +213,8 @@ export const wrapRootElement = ({ element }) => {
 ```
 5. Create folder src/styles and create style.js for our global style
 ```jsx
-import { makeStyles } from "@material-ui/core"
-
 const useStyles = makeStyles(theme => ({
-  
+  // you can define your custom theme here
 }))
 
 export default useStyles
@@ -256,15 +222,10 @@ export default useStyles
 
 6. Create a mui styled Link component with React.forwardRef.
 ```jsx
-import React from "react"
-import MuiLink from "@material-ui/core/Link"
-import { Link as GatsbyLink } from "gatsby"
 
 const Link = React.forwardRef(function Link(props, ref) {
   return <MuiLink component={GatsbyLink} style={{ textDecoration: "none" }} ref={ref} {...props} />
 })
-
-export default Link
 
 ```
 Then let's create a navigate component under src/utils with window type check to ignore gatsby build error 
@@ -293,53 +254,6 @@ export const post = {
 1. Feature Post
   for feature post, we are going to use a Card component from @material/core, and write title, description and read more instruction on CardContent. Grid is used to divide the canvas into half to prevent the line to get too long. Two empty paragraphs to hold the space. We can adjust them for better responsive performance with theme.breakpoints
   ```jsx
-  import React from "react";
-  import PropTypes from "prop-types";
-  import CardContent from '@material-ui/core/CardContent';
-  import CardActions from '@material-ui/core/CardActions';
-  import CardMedia from '@material-ui/core/CardMedia';
-  import Card from "@material-ui/core/Card";
-  import ButtonBase from "@material-ui/core/ButtonBase";
-  import Typography from "@material-ui/core/Typography";
-  import { makeStyles } from "@material-ui/core";
-  import Grid from "@material-ui/core/Grid";
-  import navigate from "../utils/navigate"
-
-  const useStyles = makeStyles(theme => ({
-    card: {
-      backgroundColor: theme.palette.grey[800],
-      color: theme.palette.common.white,
-      marginBottom: theme.spacing(4),
-      margin: `auto`,
-      borderRadius: `5px!important`
-    },
-    cardButton: {
-      display: "block",
-      textAlign: "initial",
-      width: `100%`
-    },
-    media: {
-      minHeight: 200,
-      width: `100%`,
-      backgroundSize: `cover!important`,
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center"
-    },
-    pos: {
-      paddingTop: 30,
-    },
-    content: {
-      paddingLeft: theme.spacing(4),
-      [theme.breakpoints.down("xs")]: {
-        paddingLeft: theme.spacing(1)
-      }
-    },
-    btn: {
-      paddingLeft: 0,
-      paddingTop: 20
-    }
-  }));
-
   const handleClick = (url) => {
     navigate(to=url)
   }
@@ -388,37 +302,13 @@ export const post = {
       </div>
     );
   }
-
-  FeaturedPost.propTypes = {
-    post: PropTypes.object.isRequired
-  };
-
-  export default FeaturedPost;
 ```
-let's include this component in src/pages/index.js, and pass post prop with mockData
+
+&ensp;let's include this component in src/pages/index.js, and pass post prop with mockData
 
 2. After we finish the feature post, let's work on the sub feature post component. Create a new component name SubFeaturedPost.js under src/components/
 
 ```jsx
-import React from "react"
-import { makeStyles } from "@material-ui/core"
-import { Typography, Card, CardActionArea, CardContent, Grid, Hidden, CardMedia } from "@material-ui/core"
-
-const useStyles = makeStyles(theme => ({
-  mainGrid: {
-    marginTop: theme.spacing(2),
-  },
-  card: {
-    display: "flex",
-  },
-  cardDetails: {
-    flex: 1,
-  },
-  cardMedia: {
-    width: 160,
-  },
-}))
-
 const SubFeaturedPost = ({ posts }) => {
   const classes = useStyles()
   return (
@@ -457,11 +347,6 @@ const SubFeaturedPost = ({ posts }) => {
   )
 }
 
-SubFeaturedPost.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.object).isRequired
-};
-
-export default SubFeaturedPost
 ```
 
 3. Create a blog brief card component under src/components, add more values to mockPost
@@ -478,122 +363,6 @@ export default SubFeaturedPost
 ```
 Add code
 ```jsx
-import React from "react"
-import clsx from "clsx"
-import Card from "@material-ui/core/Card"
-import CardHeader from "@material-ui/core/CardHeader"
-import CardMedia from "@material-ui/core/CardMedia"
-import CardContent from "@material-ui/core/CardContent"
-import CardActions from "@material-ui/core/CardActions"
-import Collapse from "@material-ui/core/Collapse"
-import Avatar from "@material-ui/core/Avatar"
-import IconButton from "@material-ui/core/IconButton"
-import Typography from "@material-ui/core/Typography"
-import FavoriteIcon from "@material-ui/icons/Favorite"
-import ShareIcon from "@material-ui/icons/Share"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder"
-import Link from "./Link"
-import ArticleTags from "./ArticleTags"
-import ChatBubbleOutlineRoundedIcon from "@material-ui/icons/ChatBubbleOutlineRounded"
-import StarBorderRoundedIcon from "@material-ui/icons/StarBorderRounded"
-import makeStyles from "@material-ui/core/styles/makeStyles"
-
-const useStyles = makeStyles(theme => ({
-  card: {
-    // maxWidth: 550,
-    width: `100%`,
-    boxShadow: `none`,
-    borderRadius: `5px 5px 0 0`,
-    marginTop: 15,
-  },
-  bbMedia: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-    // margin: "-70px auto 0",
-    [theme.breakpoints.down("md")]: {
-      paddingTop: "40%",
-    },
-    [theme.breakpoints.down("sm")]: {
-      paddingTop: "30%",
-    },
-  },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
-  avatar: {
-    marginLeft: 20,
-    width: 72,
-    height: 72,
-    [theme.breakpoints.down("sm")]: {
-      width: 50,
-      height: 50,
-    },
-  },
-  link: {
-    textDecoration: "none",
-    color: theme.palette.primary.light,
-  },
-  comments: {
-    marginRight: `1rem`,
-  },
-  numero: {
-    position: `relative`,
-    top: `-0.5rem`,
-    textDecoration: `none`,
-  },
-  blogFooter: {
-    borderTop: `1px solid lighten(#333, 70%)`,
-    margin: `0 auto`,
-    paddingBottom: `.125rem`,
-    width: `80%`,
-    "& ul": {
-      listStyle: `none`,
-      display: `flex`,
-      flex: `row wrap`,
-      justifyContent: `flex-end`,
-      paddingLeft: 0,
-    },
-    "& li:first-child": {
-      marginRight: `auto`,
-    },
-    "& li + li": {
-      marginLeft: `.5rem`,
-    },
-    "& li": {
-      color: `#999999`,
-      fontSize: `.75rem`,
-      height: `1.5rem`,
-      letterSpacing: `1px`,
-      lineHeight: `1.5rem`,
-      textAlign: `center`,
-      textTransform: `uppercase`,
-      position: `relative`,
-      whiteSpace: `nowrap`,
-      "& a": {
-        color: `#999999`,
-      },
-    },
-  },
-  icons: {
-    fill: `lighten(#333, 40%)`,
-    height: `24px`,
-    marginRight: `.5rem`,
-    transition: `.25s ease`,
-    width: `24px`,
-    "&:hover": {
-      fill: `#ff4d4d`,
-    },
-  },
-}))
-
 export default function BlogBriefCard({ post }) {
   const {
     imgUrl, avatar, name, firstName, lastName, title, slug, description,
@@ -685,10 +454,6 @@ export default function BlogBriefCard({ post }) {
 4. Article Tags
 
 ```jsx
-import React from "react"
-import { Link } from "gatsby"
-import useStyles from "../styles/style"
-
 const ArticleTags = ({ tags }) => {
   const classes = useStyles()
   return (
@@ -703,61 +468,11 @@ const ArticleTags = ({ tags }) => {
     </div>
   )
 }
-export default ArticleTags
 ```
 
 5. AuthorBox component
 
 ```jsx
-import React from "react"
-import Card from "@material-ui/core/Card"
-import CardHeader from "@material-ui/core/CardHeader"
-import Avatar from "@material-ui/core/Avatar"
-import Typography from "@material-ui/core/Typography"
-import Link from "./Link"
-import makeStyles from "@material-ui/core/styles/makeStyles"
-
-const useStyles = makeStyles(theme => ({
-  card: {
-    // maxWidth: 345,
-    width: `100%`,
-    boxShadow: `none`,
-    borderRadius: `5px 5px 0 0`,
-    marginTop: 15,
-    backgroundColor: `rgba(0, 0, 0, 0)`,
-  },
-  avatar: {
-    marginLeft: 20,
-    width: 72,
-    height: 72,
-    [theme.breakpoints.down("sm")]: {
-      width: 50,
-      height: 50,
-    },
-  },
-  link: {
-    textDecoration: "none",
-    color: theme.palette.primary.light,
-  },
-  btn: {
-    borderColor: `#754abc`,
-    color: `#754abc`,
-    marginLeft: 12,
-    marginTop: -4,
-    padding: `3px 10px`,
-    textAlign: `center`,
-    borderRadius: `999em`,
-    fontSize: `0.85rem`,
-    display: `inline-block`,
-    fontWeight: 400,
-    lineHeight: 1.25,
-    whiteSpace: `nowrap`,
-    verticalAlign: `middle`,
-    userSelect: `none`,
-    border: `1px solid transparent`,
-  },
-}))
-
 const AuthorCard = ({ post }) => {
   const {
     avatar, bio, firstName, lastName, name,
@@ -784,50 +499,10 @@ const AuthorCard = ({ post }) => {
     </Card>
   )
 }
-
-
-AuthorBox.propTypes = {
-  post: PropTypes.object.isRequired
-};
-
-
-export default AuthorCard
 ```
 
 6. BlogHead component
 ```jsx
-import React from "react"
-import PropTypes from 'prop-types'
-import { Typography } from "@material-ui/core"
-import makeStyles from '@material-ui/core/styles/makeStyles';
-
-const useStyles = makeStyles(theme => ({
-  mainHeading: {
-    padding: `1rem 0`,
-  },
-  postTitle: {
-    fontWeight: 700,
-    marginBottom: `1rem`,
-    color: `#111111`,
-    fontSize: `2.5rem`,
-    lineHeight: 1.1,
-  },
-  postDate: {
-    color: `rgba(0, 0, 0, .54)`,
-    display: `inline-block`,
-    fontFamily: `PT Sans`,
-    fontSize: 15,
-    fontWeight: 400,
-    lineHeight: 1.5,
-  },
-  dot: {
-    marginLeft: 3,
-    marginRight: 3,
-  },
-
-}))
-
-
 const BlogHead = ({ post }) => {
   const {title, createdAt, timeToRead, words} = post;
   const classes = useStyles();
@@ -847,11 +522,6 @@ const BlogHead = ({ post }) => {
   )
 }
 
-BlogHead.PropTypes = {
-  post: PropTypes.object.isRequired
-}
-
-export default BlogHead
 ```
 
 7. Before we move on to BlogBody component, we should convert our MarkDown file to HTML with good styling. First, we should install a new package named 'markdown-to-jsx'
@@ -860,12 +530,6 @@ yarn add markdown-to-jsx
 ```
 Create a js file named Markdown.js under utils folder
 ```jsx
-import React from 'react';
-import ReactMarkdown from 'markdown-to-jsx';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-
 const styles = theme => ({
   listItem: {
     marginTop: theme.spacing(1),
@@ -907,13 +571,6 @@ export default function Markdown(props) {
 8. Blog body component
 we add a new key `body` to the post object of mockdata, with the value of a markdown formatted blog post
 ```jsx
-import React from "react"
-import { Link as GLink } from "gatsby"
-import useStyles from "../styles/style"
-import ArticleTags from "./ArticleTags"
-import Markdown from '../utils/Markdown';
-import PropTypes from 'prop-types';
-
 const BlogBody = ({ post }) => {
   const { body, imgUrl, tags, category } = post
 
@@ -936,12 +593,6 @@ const BlogBody = ({ post }) => {
     </React.Fragment>
   )
 }
-
-BlogBody.propTypes = {
-  post: PropTypes.object.isRequired
-}
-
-export default BlogBody
 ```
 
 **That's all the components we are going to use by now, let's create the layout in the next chapter**
@@ -949,6 +600,584 @@ export default BlogBody
 
 
 ## Layouts
-1. Create folder src/layout
+1. Let's work on Header and NavBar first.<br/>
+For different screen size, we will have different layout. For large screens, nav items can be shown under header, while smaller screens have to fold them in a drawer.<br/>
+For bigger screen, header will hold them site name, subscribe button and a searchBar.<br/>
+Let's create a search bar component first.
+```jsx
+import React, { useState } from "react"
+import SearchIcon from "@material-ui/icons/Search"
+import InputBase from "@material-ui/core/InputBase"
+import { makeStyles } from "@material-ui/core"
+import { fade } from "@material-ui/core/styles"
+import { useStaticQuery, graphql } from "gatsby"
+import Link from "./Link"
+import MenuItem from "@material-ui/core/MenuItem"
+import Downshift from "downshift"
+import Paper from "@material-ui/core/Paper"
+
+
+const useStyles = makeStyles(theme => ({
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 10,
+    width: "auto",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: "auto",
+      width: "auto",
+    },
+  },
+  searchIcon: {
+    width: theme.spacing(7),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputRoot: {
+    color: "inherit",
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 7),
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: 120,
+      "&:focus": {
+        width: 200,
+      },
+    },
+  },
+  root: {
+    flexGrow: 1,
+    height: `auto`,
+  },
+  container: {
+    flexGrow: 1,
+    position: "relative",
+  },
+  paper: {
+    position: "absolute",
+    zIndex: 1,
+    marginTop: theme.spacing(1),
+    left: 0,
+    right: 0,
+  },
+  chip: {
+    margin: theme.spacing(0.5, 0.25),
+  },
+  divider: {
+    height: theme.spacing(2),
+  },
+  resultPanel: {
+    marginTop: 38,
+  },
+}))
+
+const SearchBar = () => {
+  const classes = useStyles()
+
+  const renderInput = inputProps => {
+    const { InputProps, classes, value } = inputProps
+    return (
+      <InputBase
+        placeholder="Search…"
+        classes={{
+          root: classes.inputRoot,
+          input: classes.inputInput,
+        }}
+        inputProps={{ "aria-label": "search", ...InputProps }}
+        value={value}
+        margin="dense"
+        style={{ float: `right` }}
+      />
+    )
+  }
+
+
+  return (
+    <div className={classes.search} style={{ fontSize: `1rem` }}>
+      <div className={classes.searchIcon}>
+        <SearchIcon/>
+      </div>
+
+      <div className={classes.root}>
+        <Downshift id="downshift-simple">
+          {({
+              getInputProps,
+              getItemProps,
+              getLabelProps,
+              getMenuProps,
+              highlightedIndex,
+              isOpen,
+              selectedItem,
+            }) => {
+            const { onBlur, onFocus, ...inputProps } = getInputProps({
+              placeholder: "Search...",
+            })
+
+            return (
+              <div className={classes.container}>
+                {renderInput({
+                  classes,
+                  label: "Search",
+                  InputLabelProps: getLabelProps({ shrink: true }),
+                  InputProps: { onBlur, onFocus },
+                  inputProps,
+                })}
+
+                <div {...getMenuProps()}>
+                  {!isOpen ? (
+                    <Paper className={classes.paper} square style={{ marginTop: 38 }}>
+                    </Paper>
+                  ) : null}
+                </div>
+              </div>
+            )
+          }}
+        </Downshift>
+        <div className={classes.divider}/>
+      </div>
+    </div>
+  )
+}
+
+export default SearchBar
+```
+
+```jsx
+import PropTypes from "prop-types"
+import React from "react"
+import Toolbar from "@material-ui/core/Toolbar"
+import Button from "@material-ui/core/Button"
+import Typography from "@material-ui/core/Typography"
+import { makeStyles } from "@material-ui/core"
+import Link from "../components/Link"
+import { capitalize } from "../utils/stringUtils"
+import navigate from "../utils/navigate"
+
+const useStyles = makeStyles(theme => ({
+  toolbar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    paddingLeft: `24px`,
+    paddingRight: `24px`,
+    display: `flex`,
+    position: `relative`,
+    alignItems: `center`,
+    minHeight: `64px`,
+  },
+  toolbarTitle: {
+    flex: 1,
+  },
+  toolbarSecondary: {
+    justifyContent: "space-between",
+    overflowX: "auto",
+  },
+  toolbarLink: {
+    padding: theme.spacing(1),
+    flexShrink: 0,
+  },
+}))
+
+
+const Header = ({ siteTitle }) => {
+  const classes = useStyles()
+  const title = siteTitle.replace("-", " ")
+  const navToAccount = evt => {
+    evt.preventDefault()
+    navigate("/account/", {
+      state: { from: "/" },
+    })
+  }
+  return (
+    <Toolbar className={classes.toolbar}>
+      <Button size="small">Subscribe</Button>
+      <Typography
+        component="h2"
+        variant="h5"
+        color="inherit"
+        align="center"
+        noWrap
+        className={classes.toolbarTitle}
+      >
+        <Link to={"/"} style={{ color: "black" }}>
+          {capitalize(title)}</Link>
+      </Typography>
+    </Toolbar>
+  )
+}
+
+Header.propTypes = {
+  siteTitle: PropTypes.string,
+}
+
+Header.defaultProps = {
+  siteTitle: ``,
+}
+
+export default Header
+```
+
+2. We will need a layout component to begin with. To prevent class names collisions, we need to provide a unique prefix for each page. Besides, we will query site title with staticQuery method from gatsby to set up title for each page. This component will change according to the width of screen be responsive. Additionally, we need to record if the drawer in layout is open, so we can push the main component aside a little. For smaller screen, nav bar items were hidden in a drawer. Once clicked, contents will be pushed away to the right. We pass useState hook to the child component to let Nav component to decide when to open or close the drawer.  Add another dependency named clsx to help add className to component when state changes.
+
+
+```jsx
+import React, { useState } from "react"
+import PropTypes from "prop-types"
+import Footer from "./Footer"
+import { createGenerateClassName, CssBaseline } from "@material-ui/core"
+import Container from "@material-ui/core/Container"
+import NavBar from "./NavBar"
+import { JssProvider } from "react-jss"
+import { makeStyles } from "@material-ui/core"
+import SEO from '../components/seo'
+import { useStaticQuery } from 'gatsby'
+import { graphql } from 'gatsby'
+import clsx from 'clsx'
+
+
+const drawerWidth = 240
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    width: `85%`,
+    maxWidth: `100%`,
+    position: `relative`,
+    marginLeft: `auto`,
+    marginRight: `auto`,
+    paddingRight: 15,
+    paddingLeft: 15,
+    marginTop: 5,
+    minHeight: `85vh`,
+    [theme.breakpoints.down("sm")]: {
+      width: `70%`,
+      paddingLeft: 0,
+      paddingRight: 0,
+      marginTop: 0,
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: `95%`,
+      paddingLeft: 0,
+      paddingRight: 0,
+      marginTop: 0,
+    },
+  },
+  drawerHeader: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'none'
+    },
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      alignItems: "center",
+      padding: theme.spacing(0, 1),
+      ...theme.mixins.toolbar,
+      justifyContent: "flex-end",
+    }
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: 0,
+    width: `100%`,
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+}))
+
+
+const Layout = ({ children, classPrefix, title }) => {
+  const data = useStaticQuery(graphql`
+    query SiteTitleQuery {
+        site {
+            siteMetadata {
+                title
+            }
+        }
+    }
+  `)
+
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
+  const generateClassName = createGenerateClassName({
+    productionPrefix: classPrefix,
+  })
+
+  const { site: { siteMetadata: { title: siteTitle } } } = data
+
+  const classes = useStyles()
+  return (
+    <JssProvider generateClassName={generateClassName}>
+      <React.Fragment>
+        <SEO title={`${title}`}/>
+        <CssBaseline/>
+        <Container className={classes.container}>
+          <NavBar siteTitle={siteTitle} drawerHandler={setDrawerOpen} drawerOpen={drawerOpen} />
+          <main className={clsx(classes.content, { [classes.contentShift]: drawerOpen,})}>
+            <div className={classes.drawerHeader}/>
+            {children}
+          </main>
+        </Container>
+        <Footer/>
+      </React.Fragment>
+    </JssProvider>
+  )
+}
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+}
+
+export default Layout
+
+```
+
+3. Footer component is pretty easy, it has a minimal height of 80vh to stay at bottom.
+```jsx
+import React from "react"
+import Typography from "@material-ui/core/Typography"
+import Container from "@material-ui/core/Container"
+import useStyles from "../styles/style"
+import Copyright from "./Copyright"
+
+
+const Footer = () => (
+    <footer className={useStyles().footer}>
+      <Container maxWidth="lg">
+        <Typography variant="h6" align="center" gutterBottom>
+        </Typography>
+        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+        </Typography>
+        <Copyright />
+      </Container>
+    </footer>
+  )
+
+export default Footer
+```
+
+4. Let's write our navBar component. First, we should figure out which items will be displayed and respective click handlers for each item. 
+Create a custom hook file withDimensions.js in src/util 
+```jsx
+import {useState, useEffect} from 'react'
+
+const getWindowDimensions = () => {
+  const windowGlobal = typeof window !== 'undefined' && window;
+  const {innerWidth: width, innerHeight: height} = windowGlobal;
+  return {
+    width, height
+  }
+};
+
+const useWindowDimensions = () => {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  useEffect(() => {
+    const handleResize = () => setWindowDimensions(getWindowDimensions());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return windowDimensions;
+}
+
+export default useWindowDimensions
+```
+
+For a bigger screen, we build a header component and render nav bar items below. 
+
+```jsx
+export const ListRenderer = (items, icon = true) => (
+  <List>
+    {items.map((item, index) =>
+      <ListItem button key={index}>
+        {icon &&
+        <ListItemIcon>
+          {item.icon}
+        </ListItemIcon>
+        }
+        {item.comp}
+      </ListItem>)
+    }
+  </List>
+)
+```
+
+defaultNavItems include category items and page items
+```jsx
+const defaultItems = { ...CAT_BTNS, ...PAGES_BTNS }
+
+Object.keys(defaultItems).forEach((key, index) => {
+  defaultItems[key].name = key
+  defaultItems[key].comp = makeLinkItem(key)
+})
+
+export const defaultNavItems = Object.values(defaultItems)
+```
+
+
+Header component include subscribe button, site title and a search button
+
+```jsx
+
+const Header = ({ siteTitle }) => {
+  const classes = useStyles()
+  const title = siteTitle.replace("-", " ")
+  const navToAccount = evt => {
+    evt.preventDefault()
+    navigate("/account/", {
+      state: { from: "/" },
+    })
+  }
+  return (
+    <Toolbar className={classes.toolbar}>
+      <Button size="small">Subscribe</Button>
+      <Typography
+        component="h2"
+        variant="h5"
+        color="inherit"
+        align="center"
+        noWrap
+        className={classes.toolbarTitle}
+      >
+        <Link to={"/"} style={{ color: "black" }}>
+          {capitalize(title)}</Link>
+      </Typography>
+      <IconButton>
+        <SearchBar/>
+      </IconButton>
+    </Toolbar>
+  )
+}
+```
+For smaller screen, we just use the example of drawer from material UI.
+
+```jsx
+const AppTopBar = ({ siteTitle, items, drawerHandler, drawerOpen }) => {
+  const navItems = items ? items : defaultNavItems
+  const title = siteTitle.replace("-", " ")
+  const classes = useStyles()
+  const theme = useTheme()
+
+  const handleDrawerOpen = () => {
+    drawerHandler(true)
+  }
+
+  const handleDrawerClose = () => {
+    drawerHandler(false)
+  }
+
+  console.log(drawerOpen)
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline/>
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: drawerOpen,
+        })}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, drawerOpen && classes.hide)}
+          >
+            <MenuIcon/>
+          </IconButton>
+          <Typography variant="h6" noWrap>
+            {capitalize(title)}
+          </Typography>
+          <SearchBar/>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={drawerOpen}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "ltr" ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
+          </IconButton>
+        </div>
+        {ListRenderer(navItems, true)}
+        <Divider/>
+        <List>
+          <ListItem button key="account">
+            <ListItemIcon>
+              <AccountBoxRoundedIcon/>
+            </ListItemIcon>
+          </ListItem>
+        </List>
+      </Drawer>
+    </div>
+  )
+}
+```
+
+
+Then we have our navBar component.
+
+```jsx
+const NavBar = ({ siteTitle, items, drawerHandler, drawerOpen }) => {
+  const navItems = items ? items : defaultNavItems
+  const classes = useStyles()
+  const { width } = useWindowDimensions()
+  const theme = useTheme()
+  const renderHelper = (windowWidth) => {
+    if (windowWidth > theme.breakpoints.values["md"]) {
+      return (
+        <React.Fragment>
+          <Header siteTitle={siteTitle} />
+          <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
+            {ListRenderer(navItems, true)}
+          </Toolbar>
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <React.Fragment>
+          <AppTopBar siteTitle={siteTitle} items={items} drawerHandler={drawerHandler} drawerOpen={drawerOpen}/>
+        </React.Fragment>
+      )
+    }
+  }
+
+  return (
+    <React.Fragment>
+      {renderHelper(width)}
+    </React.Fragment>
+  )
+}
+```
+
+
+
+
+
+
+
+
 ## Markdown blogs
 ## Styling
