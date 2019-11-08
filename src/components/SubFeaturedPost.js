@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     display: "flex",
+    height: `100%`
   },
   cardDetails: {
     flex: 1,
@@ -16,6 +17,13 @@ const useStyles = makeStyles(theme => ({
   cardMedia: {
     width: 160,
   },
+  readMore: {
+    position: 'absolute',
+    bottom: `20px`
+  },
+  pad: {
+    padding: 10
+  }
 }))
 
 const SubFeaturedPost = ({ posts }) => {
@@ -24,7 +32,7 @@ const SubFeaturedPost = ({ posts }) => {
     <Grid container spacing={4} className={classes.mainGrid}>
       {posts.map(post => (
         <Grid item key={post.slug} xs={12} md={6}>
-          <CardActionArea component="a" href={`/blog/${post.slug}/`}>
+          <CardActionArea component="a" href={`/blog/${post.slug}/`} style={{height: `100%`}}>
             <Card className={classes.card}>
               <div className={classes.cardDetails}>
                 <CardContent>
@@ -37,7 +45,8 @@ const SubFeaturedPost = ({ posts }) => {
                   <Typography variant="subtitle1" paragraph>
                     {post.description}
                   </Typography>
-                  <Typography variant="subtitle1" color="primary">
+                  <Typography className={classes.pad} component="p"/>
+                  <Typography variant="subtitle1" color="primary" className={classes.readMore} >
                     continue reading...
                   </Typography>
                 </CardContent>
