@@ -24,7 +24,7 @@
     "gatsby-plugin-react-helmet": "^3.1.13",
     "gatsby-plugin-sharp": "^2.2.32",
     "gatsby-source-contentful": "^2.1.55",
-    "gatsby-transformer-remark": "^2.6.32",
+    "gatsby-transformer-remark": "^5.25.1",
     "global": "^4.4.0",
     "jss": "^10.0.0",
     "lodash": "^4.17.15",
